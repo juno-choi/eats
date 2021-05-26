@@ -1,2 +1,13 @@
 server:
   port: 8081
+
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/gakebu
+    driver-class-name: org.h2.Driver
+    username: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create
+    show-sql: true
