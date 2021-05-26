@@ -3,8 +3,10 @@ package com.juno.gakebu.api.domain.common;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class SingleApi<T> extends CommonApi {
-    private T data;
+public class ListApi<T> extends CommonApi {
+    private List<T> list;
 }
