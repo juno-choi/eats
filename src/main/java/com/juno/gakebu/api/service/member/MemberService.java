@@ -27,6 +27,13 @@ public class MemberService {
         }
         return member;
     }
+    public Member findOneByMemberId(String memberId) throws Exception{
+        Member member = memberRepository.findOneByMemberId(memberId);
+        if(member==null){
+            throw new Exception();
+        }
+        return member;
+    }
 
     public List<Member> findAll(){
         return memberRepository.findAll();
