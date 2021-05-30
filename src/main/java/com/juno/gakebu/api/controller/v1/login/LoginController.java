@@ -12,12 +12,10 @@ import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.List;
 
 @Api(tags = {"1. login"})
 @RequiredArgsConstructor
@@ -50,6 +48,12 @@ public class LoginController {
                         .roles(Collections.singletonList("ROLE_USER"))
                         .build());
         return response.getSuccessResult();
+    }
+
+    @GetMapping("/test4")
+    public String test4() throws Exception {
+        Member member = memberService.findOneByMemberId("juno");
+        return member.toString();
     }
 
     @Data
