@@ -27,9 +27,9 @@ public class Member implements UserDetails {
     private Long id;
     @Column(nullable = false, unique = true, length = 20)
     private String memberId;
-    @Column(nullable = false, unique = false, length = 30)
-    private String name;
-    @Column(nullable = true, length = 100)
+    @Column(nullable = false, unique = true, length = 30)
+    private String email;
+    @Column(nullable = false, unique = false, length = 100)
     private String pw;
 
     @ElementCollection(fetch = FetchType.EAGER)

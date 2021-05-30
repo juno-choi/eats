@@ -18,13 +18,6 @@ public class MemberController {
     private final Response response;
     private final MemberService memberService;
 
-    @PostMapping("/member")
-    public SingleApi postMember(){
-
-        Member member = Member.builder().memberId("test").name("테스터").build();
-        return response.getSingleApi(memberService.save(member));
-    }
-
     @GetMapping("/member/{id}")
     public SingleApi getMember(@PathVariable(value = "id") long id) throws Exception{
         return response.getSingleApi(memberService.findOne(id));

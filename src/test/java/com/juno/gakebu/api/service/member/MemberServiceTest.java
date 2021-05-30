@@ -17,13 +17,4 @@ class MemberServiceTest {
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
 
-    @Test
-    public void 회원가입(){
-        Member member = Member.builder().memberId("user3").name("최준영").build();
-
-        Member saveMember = memberService.save(member);
-
-        Assertions.assertThat(saveMember.getName()).isEqualTo("최준영");
-    }
-
 }
