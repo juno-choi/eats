@@ -10,7 +10,9 @@ import java.util.List;
 @Service
 public class Response {
     public enum ApiResponse{
-        SUCCESS(0, "성공"), FAIL(-1, "실패");
+        SUCCESS(0, "성공"), FAIL(-1, "실패")
+        , LOGINFAIL(100, "아이디나 비밀번호가 일치하지 않습니다.")
+        , JOINFAIL(101, "회원가입 유효성검사 FAIL");
 
         int code;
         String msg;
@@ -53,11 +55,11 @@ public class Response {
     }
 
     //실패 결과만 반환
-    public CommonApi getFailResult(){
+    public CommonApi getFailResult(int code, String msg){
         CommonApi result = new CommonApi();
         result.setSuccess(false);
-        result.setCode(ApiResponse.FAIL.getCode());
-        result.setMsg(ApiResponse.FAIL.getMsg());
+        result.setCode(code);
+        result.setMsg(msg);
         return result;
     }
     //성공 결과를 세팅해주는 메서드

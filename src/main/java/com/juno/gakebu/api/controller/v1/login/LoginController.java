@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 
-@Api(tags = {"1. login"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1")
@@ -26,7 +25,6 @@ public class LoginController {
     private final MemberService memberService;
     private final Response response;
 
-    @ApiOperation(value = "로그인", notes = "회원 로그인")
     @PostMapping(value = "/login")
     public SingleApi<LoginResult> login(@RequestBody String str) {
         String token = memberService.findByMemberId(str);
