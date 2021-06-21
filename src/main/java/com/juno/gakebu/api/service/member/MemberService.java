@@ -2,6 +2,8 @@ package com.juno.gakebu.api.service.member;
 
 import com.google.gson.*;
 import com.juno.gakebu.api.domain.member.Member;
+import com.juno.gakebu.api.exception.JoinFailException;
+import com.juno.gakebu.api.exception.LoginFailException;
 import com.juno.gakebu.api.repository.member.MemberRepository;
 import com.juno.gakebu.api.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +27,29 @@ public class MemberService {
 
         JsonObject json = new Gson().fromJson(str, JsonObject.class);
 
+        String memberId = json.get("memberId").getAsString();
+        String email = json.get("email").getAsString();
+        String pw = json.get("pw").getAsString();
+
+        boolean validation = true;
+
+        if(memberId.length()<4){
+            validation = false;
+        }else if(email.length()<3){
+            validation = false;
+        }else if(pw.length()<4){
+            validation = false;
+        }
+
+        if(!validation){
+            throw new JoinFailException();
+        }
+
         Member member = Member
                 .builder()
-                .memberId(json.get("memberId").getAsString())
-                .email(json.get("email").getAsString())
-                .pw(json.get("pw").getAsString())
+                .memberId(memberId)
+                .email(email)
+                .pw(passwordEncoder.encode(pw))
                 .build();
 
         return memberRepository.save(member);
@@ -46,6 +66,15 @@ public class MemberService {
     public String findByMemberId(String str) {
         JsonObject json = new Gson().fromJson(str, JsonObject.class);
         Member member = memberRepository.findByMemberId(json.get("memberId").getAsString());
+        // 로그인하려는 아이디가 존재하지 않을때
+        if(member == null){
+            throw new LoginFailException();
+        }
+        //비밀번호가 일치하지 않을 때
+        if(!passwordEncoder.matches(json.get("pw").getAsString(),member.getPassword())){
+            throw new LoginFailException();
+        }
+
         String token = jwtTokenProvider.createToken(String.valueOf(member.getId()), member.getRoles());
 
         return token;
