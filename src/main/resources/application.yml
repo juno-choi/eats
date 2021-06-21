@@ -13,3 +13,7 @@ spring:
     show-sql: true
   jwt:
     secret: junosecret
+
+logging:
+  level:
+    root: debug
