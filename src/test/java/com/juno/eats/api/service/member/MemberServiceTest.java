@@ -27,10 +27,15 @@ class MemberServiceTest {
         json.addProperty("pw", "1234");
         json.addProperty("email", "email");
 
-        System.out.println(json.toString());
+        //System.out.println(json.toString());
         mock.perform(post("/v1/join").contentType(MediaType.APPLICATION_JSON).content(json.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.code").value("0000"));
+    }
+
+    @Test
+    public void 회원가입_실패_유효성검사(){
+
     }
 }
