@@ -2,8 +2,8 @@ package com.juno.eats.api.service.member;
 
 import com.google.gson.*;
 import com.juno.eats.api.domain.member.Member;
-import com.juno.eats.api.exception.JoinFailException;
-import com.juno.eats.api.exception.LoginFailException;
+import com.juno.eats.api.exception.login.JoinFailException;
+import com.juno.eats.api.exception.login.LoginFailException;
 import com.juno.eats.api.repository.member.MemberRepository;
 import com.juno.eats.api.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

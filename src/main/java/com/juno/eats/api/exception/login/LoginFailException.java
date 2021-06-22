@@ -1,4 +1,4 @@
-package com.juno.eats.api.exception;
+package com.juno.eats.api.exception.login;
 
 /**
  * 로그인에 실패했을때 발생하는 exception
