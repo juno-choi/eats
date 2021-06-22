@@ -19,8 +19,8 @@ public class SweggerConfig {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("gakebu")
-                .description("#가게부 API")
+                .title("Eats")
+                .description("Eats API")
                 .version("1.0")
                 .build();
     }
