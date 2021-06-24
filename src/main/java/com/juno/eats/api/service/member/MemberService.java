@@ -1,8 +1,10 @@
 package com.juno.eats.api.service.member;
 
 import com.google.gson.*;
+import com.juno.eats.api.common.Common;
 import com.juno.eats.api.domain.member.Member;
 import com.juno.eats.api.exception.login.JoinFailException;
+import com.juno.eats.api.exception.login.KeyValidationException;
 import com.juno.eats.api.exception.login.LoginFailException;
 import com.juno.eats.api.repository.member.MemberRepository;
 import com.juno.eats.api.security.JwtTokenProvider;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Stack;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,6 +28,12 @@ public class MemberService {
     @Transactional
     public Member save(String str){
 
+        String[] keys = {"memberId","pw","email"};
+        Stack<String> keyCheckStack = Common.keyCheck(str, keys);
+        if(!keyCheckStack.isEmpty()){
+            throw new KeyValidationException(keyCheckStack.pop());
+        }
+
         JsonObject json = new Gson().fromJson(str, JsonObject.class);
 
         String memberId = json.get("memberId").getAsString();
@@ -34,15 +43,11 @@ public class MemberService {
         boolean validation = true;
 
         if(memberId.length()<4){
-            validation = false;
+            throw new JoinFailException("memberId");
         }else if(email.length()<3){
-            validation = false;
+            throw new JoinFailException("email");
         }else if(pw.length()<4){
-            validation = false;
-        }
-
-        if(!validation){
-            throw new JoinFailException();
+            throw new JoinFailException("pw");
         }
 
         Member member = Member
@@ -64,6 +69,13 @@ public class MemberService {
     }
 
     public String findByMemberId(String str) {
+
+        String[] keys = {"memberId", "pw"};
+        Stack<String> keyCheckStack = Common.keyCheck(str, keys);
+        if(!keyCheckStack.isEmpty()){
+            throw new KeyValidationException(keyCheckStack.pop());
+        }
+
         JsonObject json = new Gson().fromJson(str, JsonObject.class);
         Member member = memberRepository.findByMemberId(json.get("memberId").getAsString());
         // 로그인하려는 아이디가 존재하지 않을때

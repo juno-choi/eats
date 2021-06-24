@@ -1,9 +1,9 @@
 package com.juno.eats.api.exception.login;
 
-public class JoinValidationException extends RuntimeException{
+public class KeyValidationException extends RuntimeException{
     private String key;
 
-    public JoinValidationException(String key) {
+    public KeyValidationException(String key) {
         super(key);
         this.key = key;
     }

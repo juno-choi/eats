@@ -1,8 +1,9 @@
 package com.juno.eats.api.advice;
 
+import com.juno.eats.api.common.exception.ErrorResponse;
 import com.juno.eats.api.domain.common.ErrorApiV1;
 import com.juno.eats.api.exception.login.JoinFailException;
-import com.juno.eats.api.exception.login.JoinValidationException;
+import com.juno.eats.api.exception.login.KeyValidationException;
 import com.juno.eats.api.exception.login.LoginFailException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -44,31 +45,20 @@ public class ExceptionAdvice {
      * 회원가입 실패
      */
     @ExceptionHandler(JoinFailException.class)
-    protected ResponseEntity<ErrorApiV1> joinFailException(){
+    protected ResponseEntity<ErrorApiV1> joinFailException(JoinFailException e){
         List<ErrorResponse> errorList = new ArrayList<>();
-        ErrorResponse error = new ErrorResponse("회원가입에 실패했습니다.", "0111");
+        ErrorResponse error = new ErrorResponse(e.getFailValidation()+" 값의 크기를 확인해주세요.", "0111");
         errorList.add(error);
         return getErrorResponse(errorList , HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(JoinValidationException.class)
-    protected ResponseEntity<ErrorApiV1> joinValidationException(JoinValidationException e){
+    @ExceptionHandler(KeyValidationException.class)
+    protected ResponseEntity<ErrorApiV1> joinValidationException(KeyValidationException e){
         log.error("validation check Exception", e);
         List<ErrorResponse> errorList = new ArrayList<>();
         ErrorResponse error = new ErrorResponse(e.getValidation()+" 값이 비었습니다.", "0112");
         errorList.add(error);
         return getErrorResponse(errorList , HttpStatus.BAD_REQUEST);
-    }
-
-    @Getter
-    class ErrorResponse{
-        private String message;
-        private String code;
-
-        public ErrorResponse(String message, String code) {
-            this.message = message;
-            this.code = code;
-        }
     }
 
     @NotNull
