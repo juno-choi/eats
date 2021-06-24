@@ -29,10 +29,6 @@ public class MemberRepository {
         return em.createQuery("select m from Member m", Member.class).getResultList();
     }
 
-    public Member findOneByMemberId(String memberId) {
-        return em.createQuery("select m from Member m where m.memberId = :memberId", Member.class).setParameter("memberId", memberId).getSingleResult();
-    }
-
     public Member findByMemberId(String memberId){
         QMember member = QMember.member;
         JPAQueryFactory query = new JPAQueryFactory(em);
